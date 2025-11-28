@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>道具商人沒錢途 Wiki</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <header>
+        <a href="首頁.html"><h1>道具商人沒<span style="color: rgb(233, 164, 67);">錢</span>途 
+            <span class="dis1"> Merchant Makes no <span style="color: rgb(233, 164, 67);">Money</span></span></h1></a>
+        <nav>
+            <div class="top">
+                <h3 class="wiki">WIKI</h3>
+                <img src="lens_pattern.png" width="70px" height="35px">
+                <form data-bookfinder-form>
+                    <input name="search" type="text" placeholder="Search" />
+                    <script>
+                    function handleKeyPress(event) {
+                        if (event.which == 13) {event.preventDefault();
+                            performSearch();}}
+                    function performSearch() {const query = document.getElementById('searchInput').value;
+                    console.log("執行搜尋： " + query);}
+                    </script>
+                </form>
+            </div>
+            <ul data-books></ul>
+        </nav>
+    </header>
+    <main>
+        <section class="tit2">
+            <h2>瑟夫夏地區 Sefxia Region</h2>
+        </section>
+        <section class="sum2">
+            <p>位於溫維亞大陸中央，儘管南部靠海，但是水氣不易進入內陸，使得氣候乾燥。終焉戰爭起源於此，被破壞的程度也最為嚴重。</p>
+        </section>
+        <p style="width: 100%; margin-bottom: 30px; border-top: 3px solid rgb(80, 25, 25)"></p>
+        <section class="inf">
+            <table class="tab2">   
+                <tr>
+                    <th colspan="3">瑟夫夏地區 Sefxia Region</th>
+                </tr>
+                <tr>
+                    <td class="td1">地理位置</td>
+                    <td colspan="2">溫維亞大陸中央，東鄰郁圖本地區，西鄰拉薙夫地區、達喀索地區，南靠海，北鄰托猶塔地區。</td>
+                </tr>
+                <tr>
+                    <td class="td1">氣候類型</td>
+                    <td colspan="2">北部溫帶大陸氣候，南部熱帶季風氣候</td>
+                </tr>
+                <tr>
+                    <td rowspan="2" class="td1">地形分布</td>
+                    <td class="td1">瑟夫夏平原</td>
+                    <td>位於瑟夫夏地區中央</td>
+                </tr>
+                <tr>
+                    <td class="td1">阿芙希平原</td>
+                    <td>位於瑟夫夏地區中央</td>
+                </tr>
+            </table>    
+        </section>
+    </main>
+    <footer>
+        <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> All Rights Reserved</p>
+    </footer>
+</body>
+</html>

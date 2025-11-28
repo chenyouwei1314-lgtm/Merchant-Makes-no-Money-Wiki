@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>道具商人沒錢途 Wiki</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <header>
+        <a href="首頁.html"><h1>道具商人沒<span style="color: rgb(233, 164, 67);">錢</span>途 
+            <span class="dis1"> Merchant Makes no <span style="color: rgb(233, 164, 67);">Money</span></span></h1></a>
+        <nav>
+            <div class="top">
+                <h3 class="wiki">WIKI</h3>
+                <img src="lens_pattern.png" width="70px" height="35px">
+                <form data-bookfinder-form>
+                    <input name="search" type="text" placeholder="Search" />
+                    <script>
+                    function handleKeyPress(event) {
+                        if (event.which == 13) {event.preventDefault();
+                            performSearch();}}
+                    function performSearch() {const query = document.getElementById('searchInput').value;
+                    console.log("執行搜尋： " + query);}
+                    </script>
+                </form>
+            </div>
+            <ul data-books></ul>
+        </nav>
+    </header>
+    <main>
+        <section class="tit1">
+            <h2>地區 Region</h2>
+        </section>
+        <p style="width: 100%; border-top: 3px solid rgb(80, 25, 25); margin-bottom: 22px;"></p>
+        <section class="sum1">
+            <p><span style="color: rgb(233, 164, 67);">溫維亞大陸</span>，橫跨赤道。主要分為七大地區，每個地區的地形、景觀、氣候都大不相同。</p>
+            <ul>
+                <li><a href="瑟夫夏地區.html">瑟夫夏地區</a>：位於大陸中央，因內陸的關係，氣候較為乾燥。</li>
+                <li>郁圖本地區：位於大陸東北部，氣候宜人，人口主要聚集於東部沿海。</li>
+                <li>森海塞地區：位於大陸東南部，唯一的外島，東部迎風多雨，西部背風乾燥。</li>
+                <li>托猶塔地區：位於大陸北部，是高溫熾熱的火山地帶，蘊藏珍貴礦石。</li>
+                <li>拉薙夫地區：位於大陸西部，地形主要為廣大的沙漠。</li>
+                <li>阿梓魯地區：位於大陸西南部，地形主要為熱帶雨林。</li>
+                <li>達喀索地區：位於大陸西北部，緯度、地形高，環境寒冷，不宜人居。</li>
+            </ul>
+        </section>
+        <section class="sum2">
+            <p><span style="color: rgb(233, 164, 67);">巴萊卡大陸</span>，位於南半球。依光、暗元素的分布，主要分為三大地區。</p>
+            <ul>
+                <li>梅迪本地區：位於大陸北部，地形多山而涼快，且日照充足，主要為光之一族的居住地。</li>
+                <li>克雷普地區：位於大陸中央，為上下地區的過渡帶，人口最為聚集。</li>
+                <li>布蘭德地區：位於大陸南部，緯度高而寒冷，且陽光日照少，主要為夜之一族的居住地。</li>
+            </ul>
+        </section>
+        <p style="width: 100%; margin-bottom: 30px; border-top: 3px solid rgb(80, 25, 25)"></p>
+        <section class="inf">
+            <table class="tab1">   
+                <tr>
+                    <th colspan="2">溫維亞大陸 Wenvya Continent</th>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="瑟夫夏地區.html">瑟夫夏地區 Sefxia Region</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="足部戰技.html">郁圖本地區 Yutuben Region</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="身體戰技.html">森海塞地區 Senhesser Resgion</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="武器戰技.html">托猶塔地區 Torryuta Region</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="武器戰技.html">拉薙夫地區 Latiff Region</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="武器戰技.html">阿梓魯地區 Azilu Region</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="武器戰技.html">達喀索地區 Darkso Region</a></td>
+                </tr>
+            </table>
+            <table class="tab1">   
+                <tr>
+                    <th colspan="2">巴萊卡大陸 Baleca Continent</th>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="手部戰技.html">梅迪本地區 Mediben Region</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="足部戰技.html">克雷普地區 Crepus Region</a></td>
+                </tr>
+                <tr>
+                    <td class="td1"><a href="身體戰技.html">布蘭德地區 Brandon Resgion</a></td>
+                </tr>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> All Rights Reserved</p>
+    </footer>
+</body>
+</html>
