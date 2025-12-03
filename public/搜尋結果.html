@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>道具商人沒錢途 Wiki</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <header>
+        <a href="首頁.html"><h1>道具商人沒<span style="color: rgb(233, 164, 67);">錢</span>途 
+            <span class="dis1"> Merchant Makes no <span style="color: rgb(233, 164, 67);">Money</span></span></h1></a>
+        <nav>
+            <div class="top">
+                <h3 class="wiki">WIKI</h3>
+                <img src="lens_pattern.png" width="70px" height="35px">
+                <form id="searchForm">
+                    <input id="searchInput" name="search" type="text" placeholder="Search" />
+                </form>
+            </div>
+            <ul data-books></ul>
+        </nav>
+    </header>
+    <main>
+        <section class="tit1">
+            <h2>搜尋結果 Search Result</h2>
+        </section>
+        <p style="width: 100%; border-top: 3px solid rgb(80, 25, 25); margin-bottom: 22px;"></p>
+        <section id="search">
+        <ul id="search-results"></ul>
+        </section>    
+    </main>
+    <footer>
+        <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> All Rights Reserved</p>
+    </footer>
+    <script>
+const searchForm  = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+const resultList  = document.getElementById('search-results'); // ← 用中間那個 ul
+
+// 共用的「執行搜尋」函式
+async function runSearch(query) {
+    if (!query) return;
+
+    // 把關鍵字顯示在輸入框裡
+    if (searchInput) {
+        searchInput.value = query;
+    }
+
+    const response = await fetch('/search?q=' + encodeURIComponent(query));
+    const results  = await response.json();
+
+    resultList.innerHTML = '';
+
+    if (!results.length) {
+        const li = document.createElement('li');
+        li.textContent = '找不到相關結果';
+        resultList.appendChild(li);
+        return;
+    }
+
+    results.forEach(item => {
+        const li = document.createElement('li');
+
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.textContent = item.title;
+
+        const snippet = document.createElement('p');
+        snippet.textContent = item.snippet;
+
+        li.appendChild(link);
+        li.appendChild(snippet);
+        resultList.appendChild(li);
+    });
+}
+
+// ① 進到這頁時，先看網址裡有沒有 ?q=
+const params = new URLSearchParams(window.location.search);
+const initialQuery = params.get('q');
+if (initialQuery) {
+    runSearch(initialQuery);
+}
+
+// ② 在這一頁上，如果又按 Enter，就換網址（帶著新的 q）
+if (searchForm && searchInput) {
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        window.location.href = '搜尋結果.html?q=' + encodeURIComponent(query);
+    });
+}
+
+</script>
+</body>
+</html>

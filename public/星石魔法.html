@@ -15,15 +15,8 @@
             <div class="top">
                 <h3 class="wiki">WIKI</h3>
                 <img src="lens_pattern.png" width="70px" height="35px">
-                <form data-bookfinder-form>
-                    <input name="search" type="text" placeholder="Search" />
-                    <script>
-                    function handleKeyPress(event) {
-                        if (event.which == 13) {event.preventDefault();
-                            performSearch();}}
-                    function performSearch() {const query = document.getElementById('searchInput').value;
-                    console.log("執行搜尋： " + query);}
-                    </script>
+                <form id="searchForm">
+                    <input id="searchInput" name="search" type="text" placeholder="Search" />
                 </form>
             </div>
             <ul data-books></ul>
@@ -118,5 +111,21 @@
     <footer>
         <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> All Rights Reserved</p>
     </footer>
+    <script>
+const searchForm = document.getElementById('searchForm');   // 表單
+const searchInput = document.getElementById('searchInput'); // 輸入框
+
+if (searchForm && searchInput) {
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // 不要用預設送出表單的方式
+
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        // 只負責「跳到搜尋結果頁」，把關鍵字放在網址 ?q= 後面
+        window.location.href = '搜尋結果.html?q=' + encodeURIComponent(query);
+    });
+}
+</script>
 </body>
 </html>

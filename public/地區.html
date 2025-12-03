@@ -15,15 +15,8 @@
             <div class="top">
                 <h3 class="wiki">WIKI</h3>
                 <img src="lens_pattern.png" width="70px" height="35px">
-                <form data-bookfinder-form>
-                    <input name="search" type="text" placeholder="Search" />
-                    <script>
-                    function handleKeyPress(event) {
-                        if (event.which == 13) {event.preventDefault();
-                            performSearch();}}
-                    function performSearch() {const query = document.getElementById('searchInput').value;
-                    console.log("執行搜尋： " + query);}
-                    </script>
+                <form id="searchForm">
+                    <input id="searchInput" name="search" type="text" placeholder="Search" />
                 </form>
             </div>
             <ul data-books></ul>
@@ -64,22 +57,22 @@
                     <td class="td1"><a href="瑟夫夏地區.html">瑟夫夏地區 Sefxia Region</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="足部戰技.html">郁圖本地區 Yutuben Region</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">郁圖本地區 Yutuben Region</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="身體戰技.html">森海塞地區 Senhesser Resgion</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">森海塞地區 Senhesser Resgion</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="武器戰技.html">托猶塔地區 Torryuta Region</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">托猶塔地區 Torryuta Region</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="武器戰技.html">拉薙夫地區 Latiff Region</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">拉薙夫地區 Latiff Region</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="武器戰技.html">阿梓魯地區 Azilu Region</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">阿梓魯地區 Azilu Region</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="武器戰技.html">達喀索地區 Darkso Region</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">達喀索地區 Darkso Region</a></td>
                 </tr>
             </table>
             <table class="tab1">   
@@ -87,13 +80,13 @@
                     <th colspan="2">巴萊卡大陸 Baleca Continent</th>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="手部戰技.html">梅迪本地區 Mediben Region</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">梅迪本地區 Mediben Region</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="足部戰技.html">克雷普地區 Crepus Region</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">克雷普地區 Crepus Region</a></td>
                 </tr>
                 <tr>
-                    <td class="td1"><a href="身體戰技.html">布蘭德地區 Brandon Resgion</a></td>
+                    <td class="td1"><a href="瑟夫夏地區.html">布蘭德地區 Brandon Resgion</a></td>
                 </tr>
             </table>
         </section>
@@ -101,5 +94,21 @@
     <footer>
         <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> All Rights Reserved</p>
     </footer>
+    <script>
+const searchForm = document.getElementById('searchForm');   // 表單
+const searchInput = document.getElementById('searchInput'); // 輸入框
+
+if (searchForm && searchInput) {
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // 不要用預設送出表單的方式
+
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        // 只負責「跳到搜尋結果頁」，把關鍵字放在網址 ?q= 後面
+        window.location.href = '搜尋結果.html?q=' + encodeURIComponent(query);
+    });
+}
+</script>
 </body>
 </html>
