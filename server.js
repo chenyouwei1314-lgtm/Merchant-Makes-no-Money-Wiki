@@ -78,8 +78,13 @@ app.get('/search', (req, res) => {
     const lowerText = text.toLowerCase();
 
     if (lowerText.includes(q.toLowerCase())) {
-      const title = getTitle(html, fileName.replace('.html', ''));
-      const snippet = makeSnippet(text, q);
+      const title = getH2Title(html, fileName.replace('.html', ''));
+      // 從 HTML 內容抓第一個 <h2> 當標題，抓不到就退回原本的 <title> 或檔名
+    function getH2Title(html, fallbackName) {
+      const m = html.match(/<h2[^>]*>([\s\S]*?)<\/h2>/i); // 抓第一個 <h2> ... </h2>
+      if (m) {return stripHtmlTags(m[1]).trim();}
+      return getTitle(html, fallbackName);}
+    const snippet = makeSnippet(text, q);
 
       results.push({
         url: '/' + encodeURI(fileName),   // 網址：例如 /首頁.html
