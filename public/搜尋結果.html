@@ -39,15 +39,20 @@ const searchForm  = document.getElementById('searchForm');
 const searchInput = document.getElementById('searchInput');
 const resultList  = document.getElementById('search-results'); // ← 用中間那個 ul
 
-// 共用的「執行搜尋」函式
+// 逃脫正則式裡的特殊符號，避免關鍵字剛好是 . * + 之類
+function escapeRegExp(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// 把文字中所有 keyword（不分大小寫）用 span 包起來
+function highlightKeyword(text, keyword) {
+    if (!keyword) return text;
+
+    const pattern = new RegExp('(' + escapeRegExp(keyword) + ')', 'gi');
+    return text.replace(pattern, '<span class="highlight-keyword">$1</span>');
+}
+
 async function runSearch(query) {
-    if (!query) return;
-
-    // 把關鍵字顯示在輸入框裡
-    if (searchInput) {
-        searchInput.value = query;
-    }
-
     const response = await fetch('/search?q=' + encodeURIComponent(query));
     const results  = await response.json();
 
@@ -65,10 +70,14 @@ async function runSearch(query) {
 
         const link = document.createElement('a');
         link.href = item.url;
-        link.textContent = item.title;
+
+        // ★ 標題也高亮關鍵字
+        link.innerHTML = highlightKeyword(item.title, query);
 
         const snippet = document.createElement('p');
-        snippet.textContent = item.snippet;
+
+        // ★ 摘要文字高亮關鍵字
+        snippet.innerHTML = highlightKeyword(item.snippet, query);
 
         li.appendChild(link);
         li.appendChild(snippet);
@@ -93,7 +102,6 @@ if (searchForm && searchInput) {
         window.location.href = '搜尋結果.html?q=' + encodeURIComponent(query);
     });
 }
-
 </script>
 </body>
 </html>

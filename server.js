@@ -16,7 +16,6 @@ app.use(express.static(PUBLIC_DIR));
  * @returns {string}
  */
 function stripHtmlTags(html) {
-  // 用正則把 <...> 全部換成空白
   return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
@@ -29,6 +28,18 @@ function getTitle(html, fallbackName) {
 }
 
 /**
+ * 從 HTML 內容中抓第一個 <h2> 當標題
+ * 抓不到就退回原本的 <title> 或檔名
+ */
+function getH2Title(html, fallbackName) {
+  const m = html.match(/<h2[^>]*>([\s\S]*?)<\/h2>/i); // 抓第一個 <h2> ... </h2>
+  if (m) {
+    return stripHtmlTags(m[1]).trim();
+  }
+  return getTitle(html, fallbackName);
+}
+
+/**
  * 做一小段關鍵字附近的摘要
  */
 function makeSnippet(text, keyword) {
@@ -37,7 +48,6 @@ function makeSnippet(text, keyword) {
 
   const index = lowerText.indexOf(lowerKey);
   if (index === -1) {
-    // 找不到就回傳前 80 個字
     return (text.slice(0, 80) || '') + '...';
   }
 
@@ -58,41 +68,39 @@ function makeSnippet(text, keyword) {
 app.get('/search', (req, res) => {
   const q = (req.query.q || '').trim();
   if (!q) {
-    // 沒輸入東西就回空陣列
     return res.json([]);
   }
 
-  // 讀取 public 資料夾所有檔案
-  const files = fs.readdirSync(PUBLIC_DIR);
+  let results = [];
 
-  const results = [];
+  try {
+    const files = fs.readdirSync(PUBLIC_DIR);
 
-  files.forEach((fileName) => {
-    // 只搜 .html 檔
-    if (!fileName.toLowerCase().endsWith('.html')) return;
+    files.forEach((fileName) => {
+      // 只搜 .html 檔
+      if (!fileName.toLowerCase().endsWith('.html')) return;
 
-    const fullPath = path.join(PUBLIC_DIR, fileName);
-    const html = fs.readFileSync(fullPath, 'utf8');
+      const fullPath = path.join(PUBLIC_DIR, fileName);
+      const html = fs.readFileSync(fullPath, 'utf8');
 
-    const text = stripHtmlTags(html);
-    const lowerText = text.toLowerCase();
+      const text = stripHtmlTags(html);
+      const lowerText = text.toLowerCase();
 
-    if (lowerText.includes(q.toLowerCase())) {
-      const title = getH2Title(html, fileName.replace('.html', ''));
-      // 從 HTML 內容抓第一個 <h2> 當標題，抓不到就退回原本的 <title> 或檔名
-    function getH2Title(html, fallbackName) {
-      const m = html.match(/<h2[^>]*>([\s\S]*?)<\/h2>/i); // 抓第一個 <h2> ... </h2>
-      if (m) {return stripHtmlTags(m[1]).trim();}
-      return getTitle(html, fallbackName);}
-    const snippet = makeSnippet(text, q);
+      if (lowerText.includes(q.toLowerCase())) {
+        const title = getH2Title(html, fileName.replace('.html', ''));
+        const snippet = makeSnippet(text, q);
 
-      results.push({
-        url: '/' + encodeURI(fileName),   // 網址：例如 /首頁.html
-        title,
-        snippet
-      });
-    }
-  });
+        results.push({
+          url: '/' + encodeURI(fileName),   // 網址：例如 /首頁.html
+          title,
+          snippet
+        });
+      }
+    });
+  } catch (err) {
+    console.error('搜尋時 server 端發生錯誤：', err);
+    return res.status(500).json({ error: 'search failed' });
+  }
 
   res.json(results);
 });
