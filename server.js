@@ -7,7 +7,7 @@ const app = express();
 const PORT = 3000;
 
 // 指定靜態檔案資料夾 (HTML / CSS / 圖片 全部從 public 讀)
-const PUBLIC_DIR = path.join(__dirname, 'public');
+const PUBLIC_DIR = path.join(__dirname, 'docs');
 app.use(express.static(PUBLIC_DIR));
 
 /**

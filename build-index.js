@@ -5,7 +5,7 @@ const fs = require('fs');          // 檔案系統模組
 const path = require('path');      // 處理路徑用
 
 // 🔧 你的網頁所在資料夾（這裡假設都在 public 底下）
-const CONTENT_DIR = path.join(__dirname, 'public');
+const CONTENT_DIR = path.join(__dirname, 'docs');
 
 // 🔧 輸出的索引檔案（放在 public 裡，之後前端會用 fetch 讀這個）
 const OUTPUT_FILE = path.join(CONTENT_DIR, 'search-index.json');
