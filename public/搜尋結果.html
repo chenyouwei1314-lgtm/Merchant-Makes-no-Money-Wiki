@@ -35,71 +35,128 @@
         <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> All Rights Reserved</p>
     </footer>
     <script>
-const searchForm  = document.getElementById('searchForm');
-const searchInput = document.getElementById('searchInput');
-const resultList  = document.getElementById('search-results'); // ← 用中間那個 ul
+// 🔧 搜尋索引檔案的位置（跟本頁同一個資料夾）
+const INDEX_URL = 'search-index.json';
 
-// 逃脫正則式裡的特殊符號，避免關鍵字剛好是 . * + 之類
+// 讀網址的 ?q=
+function getQueryFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return (params.get('q') || '').trim();
+}
+
+// 安全處理正則用
 function escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// 把文字中所有 keyword（不分大小寫）用 span 包起來
+// 關鍵字標色
 function highlightKeyword(text, keyword) {
     if (!keyword) return text;
-
     const pattern = new RegExp('(' + escapeRegExp(keyword) + ')', 'gi');
     return text.replace(pattern, '<span class="highlight-keyword">$1</span>');
 }
 
-async function runSearch(query) {
-    const response = await fetch('/search?q=' + encodeURIComponent(query));
-    const results  = await response.json();
+// 從整篇 content 做摘要（抓第一次出現的位置附近）
+function makeSnippet(content, keyword) {
+    const lowerText = content.toLowerCase();
+    const lowerKey  = keyword.toLowerCase();
+    const idx = lowerText.indexOf(lowerKey);
 
-    resultList.innerHTML = '';
-
-    if (!results.length) {
-        const li = document.createElement('li');
-        li.textContent = '找不到相關結果';
-        resultList.appendChild(li);
-        return;
+    if (idx === -1) {
+        return (content.slice(0, 80) || '') + '...';
     }
 
-    results.forEach(item => {
-        const li = document.createElement('li');
+    const start = Math.max(0, idx - 40);
+    const end   = Math.min(content.length, idx + 40);
+    let snippet = content.slice(start, end).trim();
 
-        const link = document.createElement('a');
-        link.href = item.url;
+    if (start > 0) snippet = '...' + snippet;
+    if (end < content.length) snippet = snippet + '...';
 
-        // ★ 標題也高亮關鍵字
-        link.innerHTML = highlightKeyword(item.title, query);
-
-        const snippet = document.createElement('p');
-
-        // ★ 摘要文字高亮關鍵字
-        snippet.innerHTML = highlightKeyword(item.snippet, query);
-
-        li.appendChild(link);
-        li.appendChild(snippet);
-        resultList.appendChild(li);
-    });
+    return snippet;
 }
 
-// ① 進到這頁時，先看網址裡有沒有 ?q=
-const params = new URLSearchParams(window.location.search);
-const initialQuery = params.get('q');
-if (initialQuery) {
-    runSearch(initialQuery);
+// 主搜尋函式：讀 index → 篩選 → 畫結果
+async function runSearch(query) {
+    const resultList  = document.getElementById('search-results');
+    const searchInput = document.getElementById('searchInput'); // header 那個欄位（如果有）
+    if (!resultList) return;
+
+    if (searchInput) {
+        searchInput.value = query;
+    }
+
+    resultList.innerHTML = '<li>搜尋中...</li>';
+
+    try {
+        const resp = await fetch(INDEX_URL);
+        const index = await resp.json(); // [{url, title, content}, ...]
+
+        const lowerQ = query.toLowerCase();
+        const results = [];
+
+        index.forEach(item => {
+            const inTitle   = item.title.toLowerCase().includes(lowerQ);
+            const inContent = item.content.toLowerCase().includes(lowerQ);
+
+            if (!inTitle && !inContent) return;
+
+            const snippet = makeSnippet(item.content, query);
+
+            results.push({
+                url: item.url,
+                title: item.title,
+                snippet: snippet
+            });
+        });
+
+        // 畫出結果
+        resultList.innerHTML = '';
+
+        if (!results.length) {
+            const li = document.createElement('li');
+            li.textContent = '找不到相關結果';
+            resultList.appendChild(li);
+            return;
+        }
+
+        results.forEach(item => {
+            const li = document.createElement('li');
+
+            const link = document.createElement('a');
+            link.href = item.url;
+            link.innerHTML = highlightKeyword(item.title, query);
+
+            const p = document.createElement('p');
+            p.innerHTML = highlightKeyword(item.snippet, query);
+
+            li.appendChild(link);
+            li.appendChild(p);
+            resultList.appendChild(li);
+        });
+
+    } catch (err) {
+        console.error('載入搜尋索引失敗：', err);
+        resultList.innerHTML = '<li>載入搜尋索引失敗，請確認 search-index.json 有上傳</li>';
+    }
 }
 
-// ② 在這一頁上，如果又按 Enter，就換網址（帶著新的 q）
+// 進到搜尋結果頁就自動跑一次
+const initialQ = getQueryFromUrl();
+if (initialQ) {
+    runSearch(initialQ);
+}
+
+// 在這一頁上再搜一次（header 那個搜尋欄），就重新導向自己
+const searchForm  = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+
 if (searchForm && searchInput) {
     searchForm.addEventListener('submit', function (event) {
         event.preventDefault();
-        const query = searchInput.value.trim();
-        if (!query) return;
-
-        window.location.href = '搜尋結果.html?q=' + encodeURIComponent(query);
+        const q = searchInput.value.trim();
+        if (!q) return;
+        window.location.href = '搜尋結果.html?q=' + encodeURIComponent(q);
     });
 }
 </script>
