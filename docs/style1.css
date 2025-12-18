@@ -115,4 +115,5 @@ th{font-size: 20px;
 .dis1{display: none;}}
 @media screen and (max-width: 720px){.wor, .cha, .cre, .sto, .equ, .ski, .tab1{width: 100%;}}
 @media screen and (max-width: 630px) {.wiki{display: none;}
+input[type="text"] {width: 32%}
 .change{display: block;}}
