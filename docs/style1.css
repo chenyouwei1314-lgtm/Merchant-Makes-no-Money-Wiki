@@ -121,5 +121,5 @@ th{font-size: 20px;
 @media screen and (max-width: 630px) {.wiki{display: none;}
 .searchWrap input[type="text"]{width: auto;
   flex: 0 1 60%;
-  max-width: 120px;
+  max-width: 120px;}
 .change{display: block;}}
