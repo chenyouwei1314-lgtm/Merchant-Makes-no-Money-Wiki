@@ -41,6 +41,7 @@ h1{font-size: 32px;
     justify-content: flex-end;}
 .searchwrap{display: flex;
   align-items: center;
+  min-width: 0;
   gap: 0;}
 input[type="text"] {width: 120px;
   height: 10px;font-size: 16px;
@@ -120,5 +121,7 @@ th{font-size: 20px;
 @media screen and (max-width: 720px){.wor, .cha, .cre, .sto, .equ, .ski, .tab1{width: 100%;}}
 @media screen and (max-width: 630px) {.wiki{display: none;}
 .searchWrap input[type="text"]{flex: 1 1 auto;
-  max-width: 120px;}
+    width: auto;
+    max-width: 120px;
+    min-width: 0;}
 .change{display: block;}}
