@@ -122,8 +122,7 @@ th{font-size: 20px;
 .dis1{display: none;}}
 @media screen and (max-width: 720px){.wor, .cha, .cre, .sto, .equ, .ski, .tab1{width: 100%;}}
 @media screen and (max-width: 630px) {.wiki{display: none;}
-.searchwrap input[type="text"]{flex: 1 1 0;
-    width: 0;
+.searchwrap input[type="text"]{flex: 0 0 auto;
     max-width: 120px;
     min-width: 0;}
 .change{display: block;}}
