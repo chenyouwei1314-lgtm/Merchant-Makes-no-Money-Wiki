@@ -120,6 +120,6 @@ th{font-size: 20px;
 @media screen and (max-width: 720px){.wor, .cha, .cre, .sto, .equ, .ski, .tab1{width: 100%;}}
 @media screen and (max-width: 630px) {.wiki{display: none;}
 .searchWrap input[type="text"]{width: auto;
-  flex: 0 1 60%;
+  flex: 0 1 30%;
   max-width: 120px;}
 .change{display: block;}}
