@@ -15,10 +15,14 @@
         <nav>
             <div class="top">
                 <h3 class="wiki">WIKI</h3>
-                <img src="lens_pattern.png" width="70px" height="35px">
-                <form id="searchForm">
-                    <input id="searchInput" name="search" type="text" placeholder="Search" />
-                </form>
+                <div class="searchwrap">
+                    <button type="button" class="searchtoggle" id="searchToggle">
+                        <img id="searchIcon" src="lens_pattern.png" alt="search">
+                    </button>
+                    <form id="searchForm" class="searchform">
+                        <input id="searchInput" name="search" type="text" placeholder="Search" />
+                    </form>
+                </div>
             </div>
             <ul data-books></ul>
         </nav>
