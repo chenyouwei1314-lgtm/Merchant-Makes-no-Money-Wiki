@@ -79,7 +79,7 @@ th{font-size: 20px;
 /*個別調整*/
 .change{display: none;} 
 .nodot a{font-size: 18px;}
-.sum1, .sum2{margin: 0 5%;}
+.sum1, .sum2{margin: 0 6%;}
 .sum2{margin-bottom: 22px;}
 .sum1, .tit2{margin-bottom: 14px;}
 .tit1, .tit2{padding: 102px 2% 0 2%;}
