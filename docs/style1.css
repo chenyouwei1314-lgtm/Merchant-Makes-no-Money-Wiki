@@ -39,7 +39,7 @@ h1{font-size: 32px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 15%}
+    gap: 20%}
 .searchwrap{display: flex;
   align-items: center;
   gap: 10px;}
