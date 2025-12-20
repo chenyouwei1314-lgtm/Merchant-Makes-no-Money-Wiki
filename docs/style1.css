@@ -66,10 +66,10 @@ h2{font-size: 32px;
     line-height: 48px;}
 h3{font-size: 28px;
     line-height: 45px;}
-p{text-align: justify;}
+p, li, td{text-align: justify;}
 ul{text-align: left;}
 table{border: 3px solid rgb(80, 25, 25);
-    margin: 0 1% 30px 1%;
+    margin-bottom: 30px;
     vertical-align: middle;
     border-collapse:collapse;}
 th,td{border: 2px solid rgb(80, 25, 25);
@@ -80,7 +80,8 @@ th{font-size: 20px;
 /*個別調整*/
 .change{display: none;} 
 .nodot a{font-size: 18px;}
-.sum1, .sum2{padding: 0 50px;}
+.sum1, .sum2{margin: 0 5%;}
+.sum2{margin-bottom: 22px;}
 .sum1, .tit2{margin-bottom: 14px;}
 .tit1, .tit2{padding: 102px 2% 0 2%;}
 .des{padding: 110px 2% 0 2%;
@@ -90,6 +91,7 @@ th{font-size: 20px;
     margin-bottom: 22px;}
 .inf{margin: 0 5%;
     display: flex;
+    gap: 30px;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;}
@@ -104,7 +106,6 @@ th{font-size: 20px;
     height: 335px;
     width: 40%;
     padding: 80px 5%;
-    margin: 0 1% 30px 1%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
