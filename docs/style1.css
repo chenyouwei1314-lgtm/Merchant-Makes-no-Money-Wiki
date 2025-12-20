@@ -42,7 +42,7 @@ h1{font-size: 32px;
     gap: 10%}
 .searchwrap{display: flex;
   align-items: center;
-  gap: 5px;}
+  gap: 10px;}
 .searchtoggle{background: none;
   border: none;
   padding: 0;
@@ -50,10 +50,11 @@ h1{font-size: 32px;
   display: flex;
   align-items: center;
   justify-content: center;}
-.searchtoggle img{width: 35px;
-  height: 35px;}
+.searchtoggle img{width: 32px;
+  height: 32px;}
 input[type="text"]{width: 120px;
-  height: 10px;font-size: 16px;
+  height: 12px;
+  font-size: 16px;
   padding: 10px;}
 
 /*Main統一*/
@@ -130,16 +131,16 @@ th{font-size: 20px;
 @media screen and (max-width: 720px){.wor, .cha, .cre, .sto, .equ, .ski, .tab1{width: 100%;}}
 @media screen and (max-width: 630px) {.searchform {display: none;}
 .searchwrap{gap: 0;}
-header.search-open h1 {visibility: hidden;}
-header.search-open .searchform {display: block;
+header.search-open h1{visibility: hidden;}
+header.search-open .searchform{display: block;
     position: absolute;
-    left: 10%;
-    right: 10%;
+    left: 5%;
+    right: 100px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;}
-header.search-open input[type="text"] {width: 100%;
-    height: 36px;
-    font-size: 18px;
-    padding: 6px 10px;}
+header.search-open input[type="text"]{width: 50%;
+    height: 12px;
+    font-size: 16px;
+    padding: 10px;}
 .change{display: block;}}

@@ -119,6 +119,24 @@ if (searchForm && searchInput) {
         window.location.href = '搜尋結果.html?q=' + encodeURIComponent(query);
     });
 }
+const header = document.querySelector('header');
+const toggleBtn = document.getElementById('searchToggle');
+const icon = document.getElementById('searchIcon');
+const input = document.getElementById('searchInput');
+
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', () => {
+    const opened = header.classList.toggle('search-open');
+
+    if (opened) {
+      icon.src = 'cross_pattern.png';
+      setTimeout(() => input.focus(), 0);
+    } else {
+      icon.src = 'lens_pattern.png';
+      input.value = '';
+    }
+  });
+}
 </script>
 </body>
 </html>

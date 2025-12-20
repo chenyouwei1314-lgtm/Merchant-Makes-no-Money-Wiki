@@ -111,7 +111,7 @@
     <footer>
         <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> Reserved</p>
     </footer>
-    <script>
+<script>
 const searchForm = document.getElementById('searchForm');   // 表單
 const searchInput = document.getElementById('searchInput'); // 輸入框
 
@@ -125,6 +125,24 @@ if (searchForm && searchInput) {
         // 只負責「跳到搜尋結果頁」，把關鍵字放在網址 ?q= 後面
         window.location.href = '搜尋結果.html?q=' + encodeURIComponent(query);
     });
+}
+const header = document.querySelector('header');
+const toggleBtn = document.getElementById('searchToggle');
+const icon = document.getElementById('searchIcon');
+const input = document.getElementById('searchInput');
+
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', () => {
+    const opened = header.classList.toggle('search-open');
+
+    if (opened) {
+      icon.src = 'cross_pattern.png';
+      setTimeout(() => input.focus(), 0);
+    } else {
+      icon.src = 'lens_pattern.png';
+      input.value = '';
+    }
+  });
 }
 </script>
 </body>
