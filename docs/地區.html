@@ -97,15 +97,22 @@
         </section>
         <p style="width: 100%; margin-bottom: 30px; border-top: 3px solid rgb(80, 25, 25)"></p>
         <section class="inf">
-            <img src="world-map.png" style="width: 100%; border-radius: 15px;">
+            <div class="map-wrap">
+                <div id="map-viewport">
+                    <div id="map-world">
+                        <img id="map-image" src="world-map.png" alt="World Map" draggable="false" />
+                    </div>
+                </div>
+            </div>
+            <script src="map-panzoom.js"></script>
         </section>
     </main>
     <footer>
         <p>Copyright <span style="font-weight: bold;">@Merchant Makes no Money</span> Reserved</p>
     </footer>
 <script>
-const searchForm = document.getElementById('searchForm');   // 表單
-const searchInput = document.getElementById('searchInput'); // 輸入框
+const searchForm = document.getElementById('searchForm');   
+const searchInput = document.getElementById('searchInput'); 
 
 if (searchForm && searchInput) {
     searchForm.addEventListener('submit', function (event) {
@@ -136,6 +143,138 @@ if (toggleBtn) {
     }
   });
 }
+
+(function () {
+  const box = document.getElementById('mapBox');
+  const img = document.getElementById('mapImg');
+  if (!box || !img) return;
+
+  // 目前縮放倍率
+  let scale = 1;
+
+  // 目前平移（實際顯示用）
+  let tx = 0, ty = 0;
+
+  // 拖曳時的「目標平移」（pointermove只更新這個）
+  let targetTx = 0, targetTy = 0;
+
+  // 拖曳狀態
+  let dragging = false;
+  let startX = 0, startY = 0;
+  let startTx = 0, startTy = 0;
+
+  // 可移動邊界（只在 resize / scale 改變時更新）
+  let minTx = 0, minTy = 0;
+
+  // rAF 控制（避免 pointermove 每次都重排/重算）
+  let rafPending = false;
+
+  // 計算邊界：不讓圖片拖到露出空白
+  function computeBounds() {
+    const bw = box.clientWidth;
+    const bh = box.clientHeight;
+
+    const iw = img.naturalWidth * scale;
+    const ih = img.naturalHeight * scale;
+
+    minTx = Math.min(0, bw - iw);
+    minTy = Math.min(0, bh - ih);
+  }
+
+  // 夾住 tx/ty
+  function clampTarget() {
+    targetTx = Math.max(minTx, Math.min(0, targetTx));
+    targetTy = Math.max(minTy, Math.min(0, targetTy));
+  }
+
+  // 套用 transform（只在 rAF 執行）
+  function applyTransform() {
+    tx = targetTx;
+    ty = targetTy;
+    img.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+  }
+
+  // 只排程一次畫面更新
+  function scheduleApply() {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      rafPending = false;
+      applyTransform();
+    });
+  }
+
+  // 初始視野：用高度比決定 scale
+  function setInitialView() {
+    const bh = box.clientHeight;
+    const nh = img.naturalHeight;
+    if (!nh) return;
+
+    const isSmall = window.innerWidth < 720;
+
+    // ✅ 你的硬規則：桌機 1:1，手機 2:1（以高度決定縮放）
+    scale = (isSmall ? (2 * bh) : (1 * bh)) / nh;
+
+    computeBounds();
+
+    if (isSmall) {
+      // 左上角
+      targetTx = 0;
+      targetTy = 0;
+    } else {
+      // 靠左，垂直置中（高度1:1時通常=0，但保留）
+      targetTx = 0;
+      const ih = img.naturalHeight * scale;
+      targetTy = (bh - ih) / 2;
+    }
+
+    clampTarget();
+    scheduleApply();
+  }
+
+  // pointerdown
+  box.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    box.classList.add('dragging');
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    // 用 targetTx/targetTy 當起點，避免 rAF 延遲造成跳動
+    startTx = targetTx;
+    startTy = targetTy;
+
+    box.setPointerCapture(e.pointerId);
+  });
+
+  // pointermove（只更新 target，不做 heavy 計算）
+  box.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    targetTx = startTx + dx;
+    targetTy = startTy + dy;
+
+    clampTarget();
+    scheduleApply();
+  });
+
+  // pointerup/cancel
+  function endDrag() {
+    dragging = false;
+    box.classList.remove('dragging');
+  }
+  box.addEventListener('pointerup', endDrag);
+  box.addEventListener('pointercancel', endDrag);
+
+  // 載入與 resize
+  if (img.complete) setInitialView();
+  else img.addEventListener('load', setInitialView);
+
+  window.addEventListener('resize', setInitialView);
+})();
 </script>
 </body>
 </html>
