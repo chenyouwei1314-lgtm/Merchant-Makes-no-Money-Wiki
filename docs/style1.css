@@ -127,7 +127,7 @@ th{font-size: 20px;
 .highlight-keyword {color: rgb(233, 164, 67);}
 
 .map-wrap {width: 100%;
-  max-width: 500px; 
+  max-width: 1000px; 
   margin: 0 auto;}
 
 #map-viewport {width: 100%;
