@@ -212,7 +212,6 @@ if (toggleBtn) {
 
     const isSmall = window.innerWidth < 720;
 
-    // ✅ 你的硬規則：桌機 1:1，手機 2:1（以高度決定縮放）
     scale = (isSmall ? (2 * bh) : (1 * bh)) / nh;
 
     computeBounds();
