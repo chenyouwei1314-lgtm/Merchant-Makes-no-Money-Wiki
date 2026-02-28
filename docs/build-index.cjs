@@ -34,6 +34,15 @@ function extractTitle(html, fallbackName) {
   return m ? m[1].trim() : fallbackName;
 }
 
+// 抓第一個 <h2>…</h2> 的文字（找不到回傳空字串）
+function extractH2(html) {
+  const m = html.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/i);
+  if (!m) return "";
+
+  // 去掉 h2 內可能包含的其他標籤
+  return m[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 function build() {
   // 讀取資料夾所有檔案
   const files = fs.readdirSync(ROOT_DIR);
@@ -47,7 +56,8 @@ function build() {
     const filePath = path.join(ROOT_DIR, file);               // 組成完整路徑
     const html = fs.readFileSync(filePath, "utf-8");          // 讀 HTML 文字
 
-    const title = extractTitle(html, file);                   // 抓標題
+    const h2 = extractH2(html);
+    const title = h2 || extractTitle(html, file);             // 抓 h2 標題
     const content = htmlToText(html);                         // 轉純文字內容
 
     index.push({
